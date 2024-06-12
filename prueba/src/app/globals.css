@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .debug1 {
+    @apply border-2 border-red-500;
+  }
+
+  .debug2 {
+    @apply border-2 border-green-500;
+  }
+}
