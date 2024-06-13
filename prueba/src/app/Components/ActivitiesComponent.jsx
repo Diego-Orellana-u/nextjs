@@ -4,38 +4,47 @@ import rightArrow from "/public/rightArrow.svg";
 import editIcon from "/public/editIcon.svg";
 import deleteIcon from "/public/deleteIcon.svg";
 
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../../libs/firebaseConfig";
 import Image from "next/image";
 
 export const ActivitiesComponent = () => {
   const [activities, setActivities] = useState([]);
 
+  // useEffect(() => {
+
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     const activitiesArray = [...activities];
+
+  //     querySnapshot.forEach((doc) => {
+  //       const docData = doc.data();
+  //       // Todo: add id in the creation of the note instead doing it here each time
+  //       docData.activityId = doc.id;
+
+  //       activitiesArray.push(docData);
+  //     });
+  //     setActivities(activitiesArray);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
   useEffect(() => {
-    const q = query(collection(db, "activities"), orderBy("key", "desc"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const activitiesArray = [...activities];
-
-      querySnapshot.forEach((doc) => {
-        const docData = doc.data();
-        // Todo: add id in the creation of the note instead doing it here each time
-        docData.activityId = doc.id;
-
-        activitiesArray.push(docData);
-      });
-      setActivities(activitiesArray);
-    });
-
-    return () => unsubscribe();
+    const res = fetch("/api", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        const data = res.json();
+        return data;
+      })
+      .then((res) => setActivities(res));
   }, []);
+
+  // useEffect(() => {
+  //   getAllActivities();
+  // }, []);
 
   const deleteActivity = async (id) => {
     console.log(id);

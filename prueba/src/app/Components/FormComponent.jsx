@@ -1,32 +1,44 @@
 "use client";
 import { useState } from "react";
-import addActivity from "@/libs/addActivity";
 import { usePathname } from "next/navigation";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/libs/firebaseConfig";
 
-export const FormComponent = ({ id }) => {
+export const FormComponent = ({ setActivities }) => {
   const [formData, setFormData] = useState({
     actName: "",
     actDesc: "",
     nParticipants: "",
   });
 
-  let name = formData.actName;
-  let description = formData.actDesc;
-  let nParticipants = formData.nParticipants;
-
   const path = usePathname();
 
-  const updateActivity = async () => {
-    const docRef = doc(db, "activities", id.id);
-    await updateDoc(docRef, { name, description, nParticipants });
-  };
+  // const updateActivity = async () => {
+  //   const docRef = doc(db, "activities", id.id);
+  //   await updateDoc(docRef, { name, description, nParticipants });
+  // };
 
-  const createActivity = (e) => {
-    const addFunc = addActivity(e, name, description, nParticipants);
-    if (addFunc) {
-      setFormData({ actName: "", actDesc: "", nParticipants: "" });
+  //done
+  const createActivity = async () => {
+    const { actName, actDesc, nParticipants } = formData;
+
+    try {
+      const res = await fetch("/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: actName,
+          description: actDesc,
+          numberParticipants: nParticipants,
+        }),
+      });
+      if (res.ok) {
+        setFormData({ actName: "", actDesc: "", nParticipants: "" });
+      } else {
+        console.error("Failed");
+      }
+    } catch (err) {
+      console.error("Error adding activity", err);
     }
   };
 
@@ -48,9 +60,7 @@ export const FormComponent = ({ id }) => {
               Activity Name
             </label>
             <input
-              name="actName"
               required
-              id="actName"
               onChange={(e) =>
                 setFormData((prevState) => ({
                   ...prevState,
@@ -67,8 +77,6 @@ export const FormComponent = ({ id }) => {
               Activity Description
             </label>
             <input
-              name="actDesc"
-              id="actDesc"
               value={formData.actDesc}
               onChange={(e) =>
                 setFormData((prevState) => ({
@@ -83,8 +91,6 @@ export const FormComponent = ({ id }) => {
           <div className="flex flex-col">
             <label htmlFor="nParticipants">N° of participants</label>
             <input
-              id="nParticipants"
-              name="nParticipants"
               value={formData.nParticipants}
               onChange={(e) =>
                 setFormData((prevState) => ({
