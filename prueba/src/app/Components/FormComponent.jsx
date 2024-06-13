@@ -17,8 +17,7 @@ export const FormComponent = ({ setActivities }) => {
   // };
 
   //done
-  const createActivity = async (e) => {
-    e.preventDefault();
+  const createActivity = async () => {
     const { actName, actDesc, nParticipants } = formData;
 
     try {
