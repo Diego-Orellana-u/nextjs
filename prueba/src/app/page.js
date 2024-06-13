@@ -1,8 +1,10 @@
 import { FormComponent } from "./Components/FormComponent";
 
 import { ActivitiesComponent } from "./Components/ActivitiesComponent";
+import { initAdmin } from "@/libs/firebaseAdmin";
 
 export default async function Home() {
+  await initAdmin();
   return (
     <main className="w-full pt-5">
       <FormComponent />
