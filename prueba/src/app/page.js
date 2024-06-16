@@ -17,7 +17,7 @@ export default async function Home() {
 //todo: llevar firebase al lado del servidor para incrementar seguridad: Listo
 //todo: refactorizar el formulario con react hooks form
 //todo: crear subcoleccion
-//todo: crear documento que se pueda referenciar en otra parte
+//todo: crear documento que se pueda referenciar en otra parte --> No se puede, se debe usar id
 //todo: agregar react query
 
 //todo: playwright y jest/vitest
