@@ -7,10 +7,12 @@ export async function GET(request) {
   try {
     const db = getFirestore();
     const ref = (await db.collection("activities").doc(id).get()).data();
-    return new Response(JSON.stringify(ref), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    if (ref) {
+      return new Response(JSON.stringify(ref), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   } catch (err) {
     return new Response(JSON.stringify({ error: "Failed to load activity" }), {
       status: 500,
