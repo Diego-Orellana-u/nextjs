@@ -6,8 +6,10 @@ import deleteIcon from "/public/deleteIcon.svg";
 
 import Image from "next/image";
 import { GET } from "../api/activities/route";
+import { initAdmin } from "@/libs/firebaseAdmin";
 
 export const ActivitiesComponent = async () => {
+  await initAdmin();
   const req = await GET();
   const activities = await req.json();
 
