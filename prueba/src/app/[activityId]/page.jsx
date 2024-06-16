@@ -1,29 +1,42 @@
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../libs/firebaseConfig";
+import { initAdmin } from "@/libs/firebaseAdmin";
+import { GET } from "../api/activity/route";
 
-// const getIndActivity = async (docId) => {
-//   const docRef = doc(db, "activities", docId);
-//   const docSnap = await getDoc(docRef);
-
-//   if (docSnap.exists()) {
-//     return docSnap.data();
-//   } else {
-//     console.log("No such document!");
-//   }
-// };
+const getIndActivity = async (docId) => {
+  try {
+    const res = await fetch("/api/activity", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(docId),
+    });
+    return res;
+  } catch (err) {
+    console.log(err);
+    // throw new Error("Failed to load individual activity");
+  }
+};
 
 export default async function Activity({ params }) {
-  // const activity = await getIndActivity(params.activityId);
-  // return (
-  //   <div className="pt-10 px-10">
-  //     <a href="/">Back to activities</a>
-  //     <div className="mt-16 border-[1px] border-red-300 h-[700px] px-10 py-12 text-white">
-  //       <h2 className="text-2xl mb-4">{activity.name}</h2>
-  //       <p className="text-base mb-5">{activity.description}</p>
-  //       <span className="text-sm">
-  //         Amount of participants: {activity.nParticipants}
-  //       </span>
-  //     </div>
-  //   </div>
-  // );
+  await initAdmin();
+  const id = params.activityId;
+
+  const getActivity = await GET(id);
+
+  const activity = await getActivity.json();
+
+  // Cuando haces la peticion desde un server component, no debes hacer un fetch, si no que simplemente ejecutar la funcion
+
+  return (
+    <div className="pt-10 px-10">
+      <a href="/">Back to activities</a>
+      <div className="mt-16 border-[1px] border-red-300 h-[700px] px-10 py-12 text-white">
+        <h2 className="text-2xl mb-4">{activity.name}</h2>
+        <p className="text-base mb-5">{activity.description}</p>
+        <span className="text-sm">
+          Amount of participants: {activity.nParticipants}
+        </span>
+      </div>
+    </div>
+  );
 }

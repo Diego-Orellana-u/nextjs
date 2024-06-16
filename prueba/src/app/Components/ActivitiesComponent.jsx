@@ -29,7 +29,7 @@ export const ActivitiesComponent = () => {
   // }, []);
 
   useEffect(() => {
-    const res = fetch("/api", {
+    const res = fetch("/api/activities", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -47,10 +47,16 @@ export const ActivitiesComponent = () => {
   // }, []);
 
   const deleteActivity = async (id) => {
-    console.log(id);
-    const docRef = doc(db, "activities", id);
-    console.log(docRef);
-    await deleteDoc(docRef);
+    try {
+      const res = await fetch("/api/activities", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(id),
+      });
+      location.reload();
+    } catch (err) {}
   };
 
   return (

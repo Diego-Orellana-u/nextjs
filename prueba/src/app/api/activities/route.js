@@ -48,3 +48,28 @@ export async function GET(request) {
     headers: { "Content-Type": "application/json" },
   });
 }
+
+export async function DELETE(request) {
+  try {
+    const db = getFirestore();
+    const id = await request.json();
+    await db.collection("activities").doc(id).delete();
+    return new Response(
+      JSON.stringify(
+        { success: true },
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    );
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: "Failed to delete activity" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+}

@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 
-export const FormComponent = ({ setActivities }) => {
+export const FormComponent = () => {
   const [formData, setFormData] = useState({
     actName: "",
     actDesc: "",
@@ -21,7 +22,7 @@ export const FormComponent = ({ setActivities }) => {
     const { actName, actDesc, nParticipants } = formData;
 
     try {
-      const res = await fetch("/api", {
+      const res = await fetch("/api/activities", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +35,7 @@ export const FormComponent = ({ setActivities }) => {
       });
       if (res.ok) {
         setFormData({ actName: "", actDesc: "", nParticipants: "" });
+        location.reload();
       } else {
         console.error("Failed");
       }

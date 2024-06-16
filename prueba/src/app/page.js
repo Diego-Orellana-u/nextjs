@@ -14,7 +14,7 @@ export default async function Home() {
 }
 
 //todo: crear componente de forms reutilizable: Listo
-//todo: llevar firebase al lado del servidor para incrementar seguridad
+//todo: llevar firebase al lado del servidor para incrementar seguridad: Listo
 //todo: refactorizar el formulario con react hooks form
 //todo: crear subcoleccion
 //todo: crear documento que se pueda referenciar en otra parte
