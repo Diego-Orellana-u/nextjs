@@ -2,12 +2,16 @@ import { initAdmin } from "@/libs/firebaseAdmin";
 import { GET } from "../api/activity/route";
 
 export default async function Activity({ params }) {
+  let id = null;
+  let getActivity = null;
+  let activity = null;
+
   await initAdmin();
-  const id = params.activityId;
+  id = params.activityId;
 
-  const getActivity = await GET(id);
+  getActivity = await GET(id);
 
-  const activity = await getActivity.json();
+  activity = await getActivity.json();
 
   // Cuando haces la peticion desde un server component, no debes hacer un fetch, si no que simplemente ejecutar la funcion
 
