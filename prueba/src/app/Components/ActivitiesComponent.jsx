@@ -8,11 +8,11 @@ import Image from "next/image";
 import { GET } from "../api/activities/route";
 
 export const ActivitiesComponent = async () => {
-  let req = null;
-  let activities = null;
+  // let req = null;
+  // let activities = null;
 
-  req = await GET();
-  activities = await req.json();
+  // req = await GET();
+  // activities = await req.json();
 
   const deleteActivity = async (id) => {
     try {
