@@ -1,17 +1,33 @@
-// "use client";
+"use client";
 
 import rightArrow from "/public/rightArrow.svg";
 import editIcon from "/public/editIcon.svg";
 import deleteIcon from "/public/deleteIcon.svg";
 
 import Image from "next/image";
-import { GET } from "../api/activities/route";
-import { initAdmin } from "@/libs/firebaseAdmin";
+import { useEffect, useState } from "react";
 
-export const ActivitiesComponent = async () => {
-  await initAdmin();
-  const req = await GET();
-  const activities = await req.json();
+export const ActivitiesComponent = () => {
+  const [activities, setActivities] = useState([]);
+
+  const showActivities = async () => {
+    try {
+      const res = await fetch("/api/activities", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const finalRes = await res.json();
+      setActivities(finalRes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    showActivities();
+  }, []);
 
   const deleteActivity = async (id) => {
     try {
@@ -51,14 +67,14 @@ export const ActivitiesComponent = async () => {
                 <Image src={editIcon} alt="edit icon" width={20} height={20} />
               </a>
 
-              {/* <Image
-          src={deleteIcon}
-          alt="delete icon"
-          className="cursor-pointer"
-          width={17}
-          height={17}
-          onClick={() => deleteActivity(doc.activityId)}
-        /> */}
+              <Image
+                src={deleteIcon}
+                alt="delete icon"
+                className="cursor-pointer"
+                width={17}
+                height={17}
+                onClick={() => deleteActivity(doc.activityId)}
+              />
             </div>
           </div>
         ))}
