@@ -18,3 +18,31 @@ export async function GET(request) {
     });
   }
 }
+
+export async function PUT(request) {
+  const { name, description, nParticipants, id } = await request.json();
+
+  try {
+    const db = getFirestore();
+    const ref = db.collection("activities").doc(id.id);
+
+    const res = ref.update({ name, description, nParticipants });
+    return new Response(
+      JSON.stringify(
+        { message: "app updated successfully" },
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    );
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: "Failed to update activity" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+}

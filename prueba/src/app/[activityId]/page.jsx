@@ -1,22 +1,6 @@
 import { initAdmin } from "@/libs/firebaseAdmin";
 import { GET } from "../api/activity/route";
 
-const getIndActivity = async (docId) => {
-  try {
-    const res = await fetch("/api/activity", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(docId),
-    });
-    return res;
-  } catch (err) {
-    console.log(err);
-    // throw new Error("Failed to load individual activity");
-  }
-};
-
 export default async function Activity({ params }) {
   await initAdmin();
   const id = params.activityId;

@@ -1,21 +1,55 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-export const FormComponent = () => {
+export const FormComponent = ({ id, activity }) => {
   const [formData, setFormData] = useState({
     actName: "",
     actDesc: "",
     nParticipants: "",
   });
 
+  const router = useRouter();
+
   const path = usePathname();
 
-  // const updateActivity = async () => {
-  //   const docRef = doc(db, "activities", id.id);
-  //   await updateDoc(docRef, { name, description, nParticipants });
-  // };
+  useEffect(() => {
+    if (path.includes("edit")) {
+      setFormData({
+        actName: activity.name,
+        actDesc: activity.description,
+        nParticipants: activity.nParticipants,
+      });
+    }
+  }, []);
+
+  const updateActivity = async () => {
+    const { actName, actDesc, nParticipants } = formData;
+
+    try {
+      const res = await fetch("/api/activity", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: actName,
+          description: actDesc,
+          nParticipants: nParticipants,
+          id: id,
+        }),
+      });
+
+      if (res.ok) {
+        router.push("/");
+      } else {
+        console.error("Failed");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //done
   const createActivity = async () => {
