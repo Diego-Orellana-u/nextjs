@@ -10,24 +10,6 @@ import Image from "next/image";
 export const ActivitiesComponent = () => {
   const [activities, setActivities] = useState([]);
 
-  // useEffect(() => {
-
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     const activitiesArray = [...activities];
-
-  //     querySnapshot.forEach((doc) => {
-  //       const docData = doc.data();
-  //       // Todo: add id in the creation of the note instead doing it here each time
-  //       docData.activityId = doc.id;
-
-  //       activitiesArray.push(docData);
-  //     });
-  //     setActivities(activitiesArray);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
   useEffect(() => {
     const res = fetch("/api/activities", {
       method: "GET",
@@ -41,10 +23,6 @@ export const ActivitiesComponent = () => {
       })
       .then((res) => setActivities(res));
   }, []);
-
-  // useEffect(() => {
-  //   getAllActivities();
-  // }, []);
 
   const deleteActivity = async (id) => {
     try {
