@@ -1,28 +1,18 @@
-"use client";
+// "use client";
 
 import rightArrow from "/public/rightArrow.svg";
 import editIcon from "/public/editIcon.svg";
 import deleteIcon from "/public/deleteIcon.svg";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { GET } from "../api/activities/route";
 
-export const ActivitiesComponent = () => {
-  const [activities, setActivities] = useState([]);
+export const ActivitiesComponent = async () => {
+  let req = null;
+  let activities = null;
 
-  useEffect(() => {
-    const res = fetch("/api/activities", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        const data = res.json();
-        return data;
-      })
-      .then((res) => setActivities(res));
-  }, []);
+  req = await GET();
+  activities = await req.json();
 
   const deleteActivity = async (id) => {
     try {
@@ -62,14 +52,14 @@ export const ActivitiesComponent = () => {
                 <Image src={editIcon} alt="edit icon" width={20} height={20} />
               </a>
 
-              <Image
+              {/* <Image
                 src={deleteIcon}
                 alt="delete icon"
                 className="cursor-pointer"
                 width={17}
                 height={17}
                 onClick={() => deleteActivity(doc.activityId)}
-              />
+              /> */}
             </div>
           </div>
         ))}

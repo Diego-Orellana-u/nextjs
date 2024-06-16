@@ -15,6 +15,7 @@ export default async function Home() {
 
 //todo: crear componente de forms reutilizable: Listo
 //todo: llevar firebase al lado del servidor para incrementar seguridad: Listo
+//todo: convertir activities list en server component
 //todo: refactorizar el formulario con react hooks form
 //todo: crear subcoleccion
 //todo: crear documento que se pueda referenciar en otra parte --> No se puede, se debe usar id
