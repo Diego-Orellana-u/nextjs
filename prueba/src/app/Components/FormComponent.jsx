@@ -42,7 +42,7 @@ export const FormComponent = ({ id, activity }) => {
       });
 
       if (res.ok) {
-        router.push("/");
+        // router.push("/");
       } else {
         console.error("Failed");
       }
@@ -78,7 +78,7 @@ export const FormComponent = ({ id, activity }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (path.includes("edit")) {
       updateActivity();
