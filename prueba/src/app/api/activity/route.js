@@ -22,22 +22,44 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-  const { name, description, nParticipants, id } = await request.json();
+  const {
+    field,
+    name,
+    description,
+    nParticipants,
+    id,
+    materialName,
+    quantity,
+    price,
+  } = await request.json();
 
   try {
     const db = getFirestore();
     const ref = db.collection("activities").doc(id.id);
 
-    const res = ref.update({ name, description, nParticipants });
-    return new Response(
-      JSON.stringify(
-        { message: "app updated successfully" },
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-    );
+    if (field !== "material") {
+      ref.update({ name, description, nParticipants });
+      return new Response(
+        JSON.stringify(
+          { message: "app updated successfully" },
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      );
+    } else {
+      ref.update({ material: { materialName, quantity, price } });
+      return new Response(
+        JSON.stringify(
+          { message: "materials updated successfully" },
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      );
+    }
   } catch (err) {
     return new Response(
       JSON.stringify({ error: "Failed to update activity" }),
