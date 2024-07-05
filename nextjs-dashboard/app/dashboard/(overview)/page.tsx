@@ -5,6 +5,10 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
 import { Suspense } from 'react';
 import { CardSkeleton, LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
+
+export const metadata = {
+  title: 'dashboard title test',
+}
  
 export default async function Page() {
 
